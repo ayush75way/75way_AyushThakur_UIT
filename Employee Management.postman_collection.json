@@ -34,13 +34,13 @@
 			"response": []
 		},
 		{
-			"name": "user login",
+			"name": "user login ( admin & employee )",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"admin1@gmail.com\",\n    \"password\": \"pass123@\"\n}",
+					"raw": "{\n    \"email\": \"e3@gmail.com\",\n    \"password\": \"pass123@\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -61,7 +61,7 @@
 			"response": []
 		},
 		{
-			"name": "get all employees",
+			"name": "get all employees ( admin )",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -89,7 +89,7 @@
 			"response": []
 		},
 		{
-			"name": "create employee",
+			"name": "create employee ( admin )",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -126,25 +126,7 @@
 			"response": []
 		},
 		{
-			"name": "get employee details",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{domain}}/employee/own",
-					"host": [
-						"{{domain}}"
-					],
-					"path": [
-						"employee",
-						"own"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "admin update status",
+			"name": "update employee todaystatus ( admin )",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -182,8 +164,74 @@
 			"response": []
 		},
 		{
-			"name": "employee timing update",
+			"name": "get self report ( employee )",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YTdiNzU1ODFkYjkxZjBjZjZlODEwNCIsInJvbGUiOiJlbXBsb3llZSIsImlhdCI6MTcwNTQ5Mzc4MywiZXhwIjoxNzA1NDk3MzgzfQ.Y62aa009uL94iQnaEt7o_jNxwJnwKF0FIPhkxnCd8uk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{domain}}/employee/self-report",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"employee",
+						"self-report"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get employees status list ( employee )",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YTdiNDkzNDU5Nzc4ZDZhZTliY2Y0OCIsInJvbGUiOiJlbXBsb3llZSIsImlhdCI6MTcwNTQ5MzY3NSwiZXhwIjoxNzA1NDk3Mjc1fQ.4S35FoRhR24Sbu4twqMze8-4x3zH6l2DsfEZN3YxpNM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{domain}}/employee/status-list",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"employee",
+						"status-list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update own timing ( employee )",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YTdiNzU1ODFkYjkxZjBjZjZlODEwNCIsInJvbGUiOiJlbXBsb3llZSIsImlhdCI6MTcwNTQ5MDQwMCwiZXhwIjoxNzA1NDk0MDAwfQ.BLwmZ_qSruJrfwZ-7mYAEgQH4sziba2v29zlNcyCmhA",
+							"type": "string"
+						}
+					]
+				},
 				"method": "PATCH",
 				"header": [],
 				"body": {
