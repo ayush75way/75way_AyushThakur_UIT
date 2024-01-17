@@ -1,16 +1,15 @@
 import { Request, Response } from "express";
 import Employee from "../modals/Employee";
-import * as jwt from "jsonwebtoken"; 
-const JWT_SECRET_KEY="JWT_SECRET_KEY"
 
-// get employees own details
-const getEmployeeDetails = async (req: Request, res: Response) => {
+
+// get employee today timing
+const getEmployeeTimings = async (req: Request, res: Response) => {
     const userId = res.locals.user.id
     try {
       const employee = await Employee.findOne({ _id: userId });
       return res.status(200).json({
         message: "Success",
-        data: employee
+        data: employee?.todayTimings
       })
     } catch (err) {
       console.log("Error in employee login", err);
@@ -22,7 +21,6 @@ const getEmployeeDetails = async (req: Request, res: Response) => {
 const updateEmployeeTodayTimings = async (req: Request, res: Response) => {
   const {inTime, outTime} = req.body;
   const user = res.locals.user;
-  console.log(user)
   const todayTimings = {inTime, outTime}
   try {
     const updatedUser = await Employee.findByIdAndUpdate(
@@ -66,5 +64,27 @@ const updateEmployeePassword = async (req: Request, res: Response) => {
   }
 };
 
+// get status of other employees
+const getOtherEmployeeStatus = async (req: Request, res: Response) =>{
+  try {
+    const employees = await Employee.find();
+    const employeesStatuses = employees.map((obj)=>{
+      return {
+        first_name: obj.first_name,
+        last_name: obj.last_name,
+        todayStatus: obj.todayStatus
+      }
+    })
+    return res.status(200).json({
+      msg: "Succces",
+      data: employeesStatuses,
+    });
+  } catch (err) {
+    return res.status(400).json({
+      msg: "Error in getting employees",
+    });
+  }
+}
 
-export {getEmployeeDetails,updateEmployeePassword, updateEmployeeTodayTimings}
+
+export {getEmployeeTimings,updateEmployeePassword,getOtherEmployeeStatus, updateEmployeeTodayTimings}

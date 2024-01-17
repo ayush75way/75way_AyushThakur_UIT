@@ -4,8 +4,8 @@ import adminRouter from './routes/Admin'
 import userRouter from './routes/User'
 import employeeRouter from './routes/Employee'
 import { authenticateAdmin, authenticateEmployee, createConnection } from './utils/helpers';
-
-require("dotenv").config()
+import * as dotenv from 'dotenv'
+dotenv.config()
 const app = express();
 
 app.use(express.json()) 

@@ -2,13 +2,11 @@ import mongoose from "mongoose";
 import * as jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 require("dotenv").config();
-const JWT_SECRET_KEY = "JWT_SECRET_KEY";
 
 interface DecodedUser {
   id: String;
   role: String;
 }
-
 export const createConnection = async () => {
   try {
     await mongoose.connect(`${process.env.MONGO_URL}`);
@@ -25,6 +23,7 @@ export const authenticateAdmin = (
   const authHeader = req.headers.authorization;
 
   if (authHeader) {
+    const JWT_SECRET_KEY = "JWT_SECRET_KEY";
     const token = authHeader.split(" ")[1];
     const user = jwt.verify(token, JWT_SECRET_KEY) as DecodedUser;
     if (!user) {
@@ -54,6 +53,7 @@ export const authenticateEmployee = (
   const authHeader = req.headers.authorization;
 
   if (authHeader) {
+    const JWT_SECRET_KEY = "JWT_SECRET_KEY";
     const token = authHeader.split(" ")[1];
     const user = jwt.verify(token, JWT_SECRET_KEY) as DecodedUser;
     if (!user) {

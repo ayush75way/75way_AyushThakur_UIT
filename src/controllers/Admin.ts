@@ -5,15 +5,22 @@ import { sendPasswordSetMail } from "../utils/mailer";
 // creating a new employee
 const createEmployee = async (req: Request, res: Response) => {
   const {
-    first_name,last_name,email,password,joining_date,birth_date,salary,
+    first_name, last_name, email, password, joining_date, birth_date, salary,
   } = req.body;
   const role = "employee";
 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ email: "Invalid email format" });
+  }
+  if (!passwordRegex.test(password)) {
+    return res.status(400).json({ password: "Password must be at least 8 characters long and include at least one digit, one lowercase letter, and one uppercase letter" });
+  }
+
   Employee.findOne({ email: email }).then((user) => {
     if (user) {
-      return res
-        .status(400)
-        .json({ email: "Employee Email already registered" });
+      return res.status(400).json({ email: "Employee Email already registered" });
     } else {
       const newEmployee = new Employee({
         first_name: first_name,

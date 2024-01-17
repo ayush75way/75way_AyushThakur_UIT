@@ -1,10 +1,11 @@
 import express from 'express'
-import { getEmployeeDetails, updateEmployeePassword, updateEmployeeTodayTimings } from '../controllers/Employee';
+import { getEmployeeTimings, getOtherEmployeeStatus, updateEmployeePassword, updateEmployeeTodayTimings } from '../controllers/Employee';
 
 const router = express.Router();
 
 // /employee is in base route
-router.get("/own", getEmployeeDetails)
+router.get("/self-report", getEmployeeTimings)
+      .get("/status-list", getOtherEmployeeStatus)
       .patch("/timings", updateEmployeeTodayTimings)
       .patch("/reset-password", updateEmployeePassword)
 
