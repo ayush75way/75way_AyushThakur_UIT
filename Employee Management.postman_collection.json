@@ -1,0 +1,212 @@
+{
+	"info": {
+		"_postman_id": "e8a285f0-d2b1-44cd-9725-86b57ab1eef9",
+		"name": "Employee Management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32356193"
+	},
+	"item": [
+		{
+			"name": "create admin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"first_name\": \"Ayush\",\n    \"last_name\": \"Thakur\",\n    \"email\": \"admin2@gmail.com\",\n    \"password\": \"pass123@\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/user/signup",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"user",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"admin1@gmail.com\",\n    \"password\": \"pass123@\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/user/login",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all employees",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YTc2ODUyNGVlNThhMTNlM2MyNWY0YSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcwNTQ4NjMwNiwiZXhwIjoxNzA1NDg5OTA2fQ.okT2JvCjNVPK9hPwbpZ1tWimwNQTgV_AB_xRlgnk-ho",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{domain}}/admin/employees",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"admin",
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create employee",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YTc2ODUyNGVlNThhMTNlM2MyNWY0YSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcwNTQ5MDg4MSwiZXhwIjoxNzA1NDk0NDgxfQ.BAG-9WUUz9OMrGusGd4_WJaiZm8trBd3hLxNaS9Xs9E",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"first_name\": \"Ayush\",\n    \"last_name\": \"Thakur\",\n    \"email\": \"e5@gmail.com\",\n    \"password\": \"pass123@\",\n    \"joining_date\": \"2023-01-01\",\n    \"birth_date\": \"2002-01-01\",\n    \"salary\": 60000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/admin/employee",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"admin",
+						"employee"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get employee details",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{domain}}/employee/own",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"employee",
+						"own"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin update status",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YTc2ODUyNGVlNThhMTNlM2MyNWY0YSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcwNTQ4NjMwNiwiZXhwIjoxNzA1NDg5OTA2fQ.okT2JvCjNVPK9hPwbpZ1tWimwNQTgV_AB_xRlgnk-ho",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"todayStatus\": \"Present\",\n    \"inTime\": \"10am\",\n    \"outTime\": \"7pm\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/admin/updateStatus/65a7a0f40af4f5fd58a6495a",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"admin",
+						"updateStatus",
+						"65a7a0f40af4f5fd58a6495a"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "employee timing update",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"inTime\": \"7am\",\n    \"outTime\": \"5pm\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/employee/timings",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"employee",
+						"timings"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
