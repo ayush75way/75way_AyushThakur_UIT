@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"first_name\": \"Ayush\",\n    \"last_name\": \"Thakur\",\n    \"email\": \"admin2@gmail.com\",\n    \"password\": \"pass123@\"\n}",
+					"raw": "{\n    \"first_name\": \"Ayush\",\n    \"last_name\": \"Thakur\",\n    \"email\": \"admin2@gmail.com\",\n    \"password\": \"Pass123@\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -34,13 +34,103 @@
 			"response": []
 		},
 		{
+			"name": "refresh token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let json_data = pm.response.json()",
+							"pm.environment.set(\"access\", json_data.access)",
+							"pm.environment.set(\"refresh\", json_data.refresh)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "refresh",
+							"value": "{{refresh}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{domain}}/token/refresh",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"token",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "user login ( admin & employee )",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// const postRequest = {",
+							"//   url: 'http://localhost:8000/user/login',",
+							"//   method: 'POST',",
+							"//   timeout: 0,",
+							"//   header: {",
+							"//     \"Content-Type\": \"application/json\"",
+							"//   },",
+							"//   body: {",
+							"//         mode: 'raw',",
+							"//         raw: '{{requestBody}}'",
+							"//     }",
+							"// };",
+							"// pm.sendRequest(postRequest, function (err, res) {",
+							"//     if (err) {",
+							"//         console.error(err);",
+							"//         return;",
+							"//     }",
+							"//     var requestBody = JSON.parse(pm.variables.get('requestBody'));",
+							"",
+							"//     var responseJson = res.json();",
+							"//     console.log(responseJson);",
+							"//     pm.globals.set('access', responseJson['access']);",
+							"// });",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let json_data = pm.response.json()",
+							"pm.environment.set(\"access\", json_data.access)",
+							"pm.environment.set(\"refresh\", json_data.refresh)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"e3@gmail.com\",\n    \"password\": \"pass123@\"\n}",
+					"raw": "{\n    \"email\": \"admin@gmail.com\",\n    \"password\": \"Pass123@\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -68,7 +158,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YTc2ODUyNGVlNThhMTNlM2MyNWY0YSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcwNTQ4NjMwNiwiZXhwIjoxNzA1NDg5OTA2fQ.okT2JvCjNVPK9hPwbpZ1tWimwNQTgV_AB_xRlgnk-ho",
+							"value": "{{access}}",
 							"type": "string"
 						}
 					]
@@ -96,7 +186,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YTc2ODUyNGVlNThhMTNlM2MyNWY0YSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcwNTQ5MDg4MSwiZXhwIjoxNzA1NDk0NDgxfQ.BAG-9WUUz9OMrGusGd4_WJaiZm8trBd3hLxNaS9Xs9E",
+							"value": "{{access}}",
 							"type": "string"
 						}
 					]
@@ -105,7 +195,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"first_name\": \"Ayush\",\n    \"last_name\": \"Thakur\",\n    \"email\": \"e5@gmail.com\",\n    \"password\": \"pass123@\",\n    \"joining_date\": \"2023-01-01\",\n    \"birth_date\": \"2002-01-01\",\n    \"salary\": 60000\n}",
+					"raw": "{\n    \"first_name\": \"Kumar\",\n    \"last_name\": \"Varun\",\n    \"email\": \"temp1@gmail.com\",\n    \"password\": \"Pass123@\",\n    \"joining_date\": \"2023-01-01\",\n    \"birth_date\": \"2024-02-18\",\n    \"salary\": 60000\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -133,7 +223,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YTc2ODUyNGVlNThhMTNlM2MyNWY0YSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcwNTQ4NjMwNiwiZXhwIjoxNzA1NDg5OTA2fQ.okT2JvCjNVPK9hPwbpZ1tWimwNQTgV_AB_xRlgnk-ho",
+							"value": "{{access}}",
 							"type": "string"
 						}
 					]
@@ -171,7 +261,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YTdiNzU1ODFkYjkxZjBjZjZlODEwNCIsInJvbGUiOiJlbXBsb3llZSIsImlhdCI6MTcwNTQ5Mzc4MywiZXhwIjoxNzA1NDk3MzgzfQ.Y62aa009uL94iQnaEt7o_jNxwJnwKF0FIPhkxnCd8uk",
+							"value": "{{access}}",
 							"type": "string"
 						}
 					]
@@ -199,7 +289,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YTdiNDkzNDU5Nzc4ZDZhZTliY2Y0OCIsInJvbGUiOiJlbXBsb3llZSIsImlhdCI6MTcwNTQ5MzY3NSwiZXhwIjoxNzA1NDk3Mjc1fQ.4S35FoRhR24Sbu4twqMze8-4x3zH6l2DsfEZN3YxpNM",
+							"value": "{{access}}",
 							"type": "string"
 						}
 					]
@@ -227,7 +317,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YTdiNzU1ODFkYjkxZjBjZjZlODEwNCIsInJvbGUiOiJlbXBsb3llZSIsImlhdCI6MTcwNTQ5MDQwMCwiZXhwIjoxNzA1NDk0MDAwfQ.BLwmZ_qSruJrfwZ-7mYAEgQH4sziba2v29zlNcyCmhA",
+							"value": "{{access}}",
 							"type": "string"
 						}
 					]
