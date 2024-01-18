@@ -1,22 +1,22 @@
 import { Request, Response } from "express";
 import Employee from "../modals/Employee";
-import { sendPasswordSetMail } from "../utils/mailer";
-
+import { sendPasswordSetMail } from "../utils/mailer"; 
+import { isEmailValid, isPasswordValid } from "../utils/helpers"; 
+import * as bcrypt from 'bcrypt'
 // creating a new employee
 const createEmployee = async (req: Request, res: Response) => {
   const {
     first_name, last_name, email, password, joining_date, birth_date, salary,
   } = req.body;
   const role = "employee";
-
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
-  if (!emailRegex.test(email)) {
+  if (!isEmailValid(email)) {
     return res.status(400).json({ email: "Invalid email format" });
   }
-  if (!passwordRegex.test(password)) {
+  if (!isPasswordValid(password)) {
     return res.status(400).json({ password: "Password must be at least 8 characters long and include at least one digit, one lowercase letter, and one uppercase letter" });
   }
+
+  const hashPassword = bcrypt.hashSync(password, 10)
 
   Employee.findOne({ email: email }).then((user) => {
     if (user) {
@@ -26,7 +26,7 @@ const createEmployee = async (req: Request, res: Response) => {
         first_name: first_name,
         last_name: last_name,
         email: email,
-        password: password,
+        password: hashPassword,
         joining_date: joining_date,
         birth_date: birth_date,
         yearlySalary: salary,

@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Employee from "../modals/Employee";
+import { isPasswordValid } from "../utils/helpers";
 
 
 // get employee today timing
@@ -41,6 +42,12 @@ const updateEmployeeTodayTimings = async (req: Request, res: Response) => {
 // used by the employee to change password from email link
 const updateEmployeePassword = async (req: Request, res: Response) => {
   const {password, confirmpassword} = req.body;
+  if (!isPasswordValid(password)) {
+    return res.status(400).json({ password: "Password must be at least 8 characters long and include at least one digit, one lowercase letter, and one uppercase letter" });
+  }
+  if (!isPasswordValid(confirmpassword)) {
+    return res.status(400).json({ password: "Confirm Password must be at least 8 characters long and include at least one digit, one lowercase letter, and one uppercase letter" });
+  }
   const user = res.locals.user;
   if(password == confirmpassword){
     try {

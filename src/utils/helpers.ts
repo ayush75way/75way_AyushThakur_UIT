@@ -76,5 +76,17 @@ export const authenticateEmployee = (
     });
   }
 };
-
-
+export const isEmailValid = (email:any)=>{
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (emailRegex.test(email)) {
+    return true
+  }
+  return false
+}
+export const isPasswordValid = (password:any)=>{
+  const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+  if (passwordRegex.test(password)) {
+    return true
+  }
+  return false
+}

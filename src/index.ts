@@ -5,6 +5,7 @@ import userRouter from './routes/User'
 import employeeRouter from './routes/Employee'
 import { authenticateAdmin, authenticateEmployee, createConnection } from './utils/helpers';
 import * as dotenv from 'dotenv'
+import './utils/cronjob'
 dotenv.config()
 const app = express();
 
@@ -19,7 +20,6 @@ app.use("/employee", authenticateEmployee, employeeRouter)
 
 // mongo atlas connection
 createConnection()
-
 app.listen(process.env.PORT, ()=>{
     console.log(`Server running on port: ${process.env.PORT}`)
 })
