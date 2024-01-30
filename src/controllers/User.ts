@@ -4,7 +4,10 @@ import * as jwt from "jsonwebtoken";
 import * as bcrypt from "bcrypt";
 import Employee from "../modals/Employee";
 import { isEmailValid, isPasswordValid } from "../utils/helpers";
-
+interface DecodedUser {
+  id: String;
+  role: String;
+}
 const sanitizeUser = (user: any) => {
   const { first_name, last_name, email, role } = user;
   return {
@@ -73,16 +76,16 @@ const loginUser = async (req: Request, res: Response) => {
             role: user?.role,
           },
           JWT_SECRET_KEY,
-          { expiresIn: "5m" }
+          { expiresIn: "1m" }
         );
         const refreshToken = jwt.sign(
           { id: user?._id, role: user?.role },
           JWT_SECRET_KEY,
-          { expiresIn: "1h" }
+          { expiresIn: "2m" }
         );
         return res.status(200).json({
           access: accessToken,
-          refresh: refreshToken
+          refresh: refreshToken,
         });
       } else {
         return res.json({
@@ -98,16 +101,16 @@ const loginUser = async (req: Request, res: Response) => {
             role: employee?.role,
           },
           JWT_SECRET_KEY,
-          { expiresIn: "5m" }
+          { expiresIn: "1m" }
         );
         const refreshToken = jwt.sign(
           { id: user?._id, role: user?.role },
           JWT_SECRET_KEY,
-          { expiresIn: "1h" }
+          { expiresIn: "1m" }
         );
         return res.status(200).json({
           access: accessToken,
-          refresh: refreshToken
+          refresh: refreshToken,
         });
       } else {
         return res.json({
@@ -125,10 +128,45 @@ const loginUser = async (req: Request, res: Response) => {
   }
 };
 
-const refreshToken =async (req: Request, res: Response) =>{
-  const {refresh} = req.body;
-  
+const refreshToken = async (req: Request, res: Response) => {
+  const { refresh } = req.body;
+  const JWT_SECRET_KEY = "JWT_SECRET_KEY";
 
-}
+  jwt.verify(refresh, JWT_SECRET_KEY, function (err: any) {
+    if (err) {
+      return res.status(404).json({
+        msg: "Refresh token expired, login again",
+      });
+    }
+  });
 
-export { createUser, loginUser };
+  const user = jwt.verify(refresh, JWT_SECRET_KEY) as DecodedUser;
+
+  const accessToken = jwt.sign(
+    {
+      id: user.id,
+      role: "admin",
+    },
+    JWT_SECRET_KEY,
+    { expiresIn: "1m" }
+  );
+  return res.json({
+    access: accessToken,
+  });
+};
+
+const getUser = async (req: Request, res: Response) => {
+  try {
+    const user: any = await User.findById(res.locals.user.id);
+    if (user) {
+      return res.status(200).json({
+        msg: user,
+      });
+    }
+  } catch (err) {
+    console.log("Error in getting user data", err);
+    return res.status(404).json({ message: "Getting user data failed" });
+  }
+};
+
+export { createUser, loginUser, getUser, refreshToken };

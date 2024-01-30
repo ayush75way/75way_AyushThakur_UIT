@@ -21,16 +21,23 @@ export const authenticateAdmin = (
   next: NextFunction
 ) => {
   const authHeader = req.headers.authorization;
-
   if (authHeader) {
     const JWT_SECRET_KEY = "JWT_SECRET_KEY";
     const token = authHeader.split(" ")[1];
+    jwt.verify(token, JWT_SECRET_KEY, function (err) {
+      if (err) {
+          return res.status(401).json({
+            msg: "Access token is expired",
+          })
+      }
+    });
     const user = jwt.verify(token, JWT_SECRET_KEY) as DecodedUser;
     if (!user) {
       return res.status(403).json({
         msg: "User not found",
       });
     } else {
+      res.locals.user = user;
       if (user.role == "admin") {
         next();
       } else {
@@ -76,17 +83,17 @@ export const authenticateEmployee = (
     });
   }
 };
-export const isEmailValid = (email:any)=>{
+export const isEmailValid = (email: any) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (emailRegex.test(email)) {
-    return true
+    return true;
   }
-  return false
-}
-export const isPasswordValid = (password:any)=>{
+  return false;
+};
+export const isPasswordValid = (password: any) => {
   const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
   if (passwordRegex.test(password)) {
-    return true
+    return true;
   }
-  return false
-}
+  return false;
+};
